@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destrave sua operação — Automação e IA aplicadas | Cida Moreira | AscenDeres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1C2B48;
+    --navy-dark:#141E36;
+    --copper:#C28E79;
+    --copper-light:#E7D5C9;
+    --cream:#FAF9F7;
+    --card:#F1EDE9;
+    --grey:#5A5A5A;
+    --lgrey:#8A8A8A;
+    --green:#4C9A6E;
+    --red:#B0432E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Barlow', sans-serif;
+    color:var(--navy);
+    background:var(--cream);
+    line-height:1.5;
+  }
+  h1,h2,h3, .display{
+    font-family:'Barlow Condensed', sans-serif;
+    font-weight:700;
+    letter-spacing:0.2px;
+  }
+  .eyebrow{
+    font-family:'Barlow', sans-serif;
+    font-size:0.78rem;
+    font-weight:700;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:var(--copper);
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,30,54,0.96);
+    backdrop-filter:blur(6px);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .brand{font-family:'Barlow Condensed', sans-serif; font-weight:700; color:#fff; font-size:1.1rem; letter-spacing:1px;}
+  .brand span{color:var(--copper);}
+  nav a.cta-nav{
+    background:var(--copper); color:var(--navy-dark); font-weight:700;
+    padding:9px 20px; border-radius:999px; font-size:0.88rem;
+  }
+
+  /* HERO */
+  header.hero{
+    background:var(--navy-dark);
+    color:#fff;
+    padding:72px 0 64px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute; top:-160px; right:-120px;
+    width:420px; height:420px; border-radius:50%;
+    background:var(--navy); opacity:0.55;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute; bottom:-140px; left:-100px;
+    width:320px; height:320px; border-radius:50%;
+    background:var(--copper); opacity:0.08;
+  }
+  .hero-inner{position:relative; z-index:2; display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;}
+  .hero h1{font-size:3.1rem; line-height:1.05; margin:18px 0 20px;}
+  .hero p.sub{font-size:1.15rem; color:#C9D2E3; font-style:italic; max-width:520px; margin-bottom:28px;}
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--copper); color:var(--navy-dark); font-weight:700;
+    padding:14px 26px; border-radius:8px; font-size:0.98rem; display:inline-block;
+    transition:transform .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{
+    border:1.5px solid #4A5A80; color:#fff; font-weight:600;
+    padding:13px 24px; border-radius:8px; font-size:0.98rem; display:inline-block;
+  }
+
+  /* CALCULATOR CARD */
+  .calc-card{
+    background:var(--navy);
+    border:1px solid #33456B;
+    border-radius:16px;
+    padding:28px 26px;
+  }
+  .calc-card h3{font-size:1.3rem; color:#fff; margin-bottom:4px;}
+  .calc-card .calc-sub{font-size:0.85rem; color:#9FADC7; margin-bottom:20px;}
+  .calc-row{margin-bottom:16px;}
+  .calc-row label{display:block; font-size:0.82rem; color:#C9D2E3; margin-bottom:6px; font-weight:600;}
+  .calc-row input[type=range]{width:100%; accent-color:var(--copper);}
+  .calc-row .val{color:var(--copper); font-weight:700;}
+  .calc-result{
+    margin-top:22px; padding:18px; background:var(--navy-dark); border-radius:10px;
+    border:1px solid #33456B;
+  }
+  .calc-result .num{font-family:'Barlow Condensed'; font-weight:700; font-size:2.4rem; color:#6FCF97; line-height:1;}
+  .calc-result .label{font-size:0.82rem; color:#9FADC7; margin-top:4px;}
+
+  /* SECTIONS */
+  section{padding:76px 0;}
+  .section-head{max-width:640px; margin-bottom:44px;}
+  .section-head h2{font-size:2.3rem; color:var(--navy); margin-top:10px;}
+
+  /* PILLARS */
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .pillar{
+    background:#fff; border:1px solid #E5DED7; border-radius:14px; padding:30px 26px;
+    box-shadow:0 4px 18px rgba(28,43,72,0.05);
+  }
+  .pillar .n{font-family:'Barlow Condensed'; font-weight:700; font-size:2rem; color:var(--copper-light); margin-bottom:8px;}
+  .pillar h3{font-size:1.2rem; margin-bottom:8px; color:var(--navy);}
+  .pillar p{font-size:0.95rem; color:var(--grey);}
+
+  /* GOOGLE ECOSYSTEM EXAMPLES */
+  .eco{background:var(--navy-dark); color:#fff;}
+  .eco .section-head h2{color:#fff;}
+  .eco-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  .eco-card{
+    background:var(--navy); border:1px solid #2C3B5D; border-radius:14px; padding:26px 24px;
+  }
+  .eco-card .tool-tag{
+    display:inline-block; font-size:0.72rem; font-weight:700; letter-spacing:1px;
+    color:var(--navy-dark); background:var(--copper-light); padding:4px 10px; border-radius:999px; margin-bottom:14px;
+  }
+  .eco-card h4{font-size:1.05rem; margin-bottom:8px; color:#fff;}
+  .eco-card p{font-size:0.9rem; color:#B9C4DC;}
+  .eco-note{
+    margin-top:32px; font-size:0.9rem; color:#9FADC7; border-top:1px solid #2C3B5D; padding-top:22px;
+  }
+  .eco-note strong{color:var(--copper-light);}
+
+  /* PROCESS */
+  .steps{border-left:2px solid var(--copper-light); margin-left:22px;}
+  .step{position:relative; padding:0 0 36px 34px;}
+  .step:last-child{padding-bottom:0;}
+  .step::before{
+    content:attr(data-n);
+    position:absolute; left:-22px; top:0;
+    width:44px; height:44px; border-radius:50%;
+    background:var(--navy); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Barlow Condensed'; font-weight:700; font-size:1.15rem;
+  }
+  .step h4{font-size:1.15rem; color:var(--navy); margin-bottom:6px;}
+  .step p{font-size:0.95rem; color:var(--grey); max-width:560px;}
+
+  /* MAPEAMENTO RÁPIDO */
+  .map-card{
+    background:#fff; border:1px solid #E5DED7; border-radius:16px;
+    padding:34px 32px; max-width:640px;
+    box-shadow:0 4px 18px rgba(28,43,72,0.05);
+  }
+  .map-row{margin-bottom:20px;}
+  .map-row label{display:block; font-size:0.88rem; font-weight:600; color:var(--navy); margin-bottom:8px;}
+  .map-row input[type=text], .map-row textarea{
+    width:100%; border:1px solid #D9D2CA; border-radius:8px; padding:12px 14px;
+    font-family:'Barlow', sans-serif; font-size:0.95rem; color:var(--navy);
+    background:var(--cream); resize:vertical;
+  }
+  .map-row input[type=text]:focus, .map-row textarea:focus{
+    outline:none; border-color:var(--copper);
+  }
+  .map-btn{border:none; cursor:pointer; width:100%; text-align:center; font-size:1rem;}
+  .map-hint{font-size:0.8rem; color:var(--lgrey); margin-top:12px; text-align:center;}
+
+  /* SOBRE / AUTORIDADE */
+  .about{background:#fff;}
+  .about-grid{display:grid; grid-template-columns:0.85fr 1.15fr; gap:56px; align-items:start;}
+  .about-avatar{
+    width:96px; height:96px; border-radius:50%;
+    background:var(--navy); color:var(--copper-light);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Barlow Condensed'; font-weight:700; font-size:2.1rem;
+    margin-bottom:22px;
+  }
+  .about-bio h3{font-size:1.5rem; color:var(--navy); margin-bottom:4px;}
+  .about-bio .role{font-size:0.92rem; color:var(--copper); font-weight:600; margin-bottom:16px;}
+  .about-bio p{font-size:0.98rem; color:var(--grey); margin-bottom:14px; max-width:440px;}
+
+  .results-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  .result-card{
+    background:var(--card); border-radius:12px; padding:22px 20px;
+  }
+  .result-card .num{font-family:'Barlow Condensed'; font-weight:700; font-size:1.9rem; color:var(--navy); line-height:1.1;}
+  .result-card .desc{font-size:0.85rem; color:var(--grey); margin-top:6px;}
+
+  /* CTA FINAL */
+  .cta-final{
+    background:var(--copper);
+    border-radius:20px;
+    padding:56px 48px;
+    display:flex; justify-content:space-between; align-items:center; gap:32px; flex-wrap:wrap;
+  }
+  .cta-final h2{color:var(--navy-dark); font-size:2rem; max-width:520px;}
+  .cta-final p{color:#5B4536; margin-top:8px; font-size:0.98rem; max-width:480px;}
+  .cta-final .btn-primary{background:var(--navy-dark); color:#fff;}
+
+  footer{background:var(--navy-dark); color:#9FADC7; padding:36px 0; font-size:0.85rem;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+  footer strong{color:#fff;}
+
+  @media(max-width:860px){
+    .hero-inner{grid-template-columns:1fr;}
+    .pillars, .eco-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:2.3rem;}
+    .cta-final{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">CIDA MOREIRA <span>· AscenDeres</span></div>
+    <a class="cta-nav" href="#diagnostico">Diagnóstico gratuito</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <p class="eyebrow">Consultoria em automação e IA para operações</p>
+      <h1>Sua operação não precisa<br>de sistema novo.<br>Precisa parar de depender<br>de trabalho manual.</h1>
+      <p class="sub">Eu ajudo empresas a identificar onde o trabalho manual está travando a operação — e a resolver isso com o que já existe hoje: Google Workspace, Microsoft 365 ou IA aplicada. Diagnóstico primeiro, ferramenta depois.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="#diagnostico">Quero meu diagnóstico gratuito</a>
+        <a class="btn-ghost" href="#exemplos">Ver exemplos práticos</a>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <h3>Quanto o trabalho manual custa por mês?</h3>
+      <p class="calc-sub">Ajuste os controles com base numa atividade repetitiva da sua equipe.</p>
+
+      <div class="calc-row">
+        <label>Minutos gastos por tarefa: <span class="val" id="minVal">5</span> min</label>
+        <input type="range" id="minutos" min="1" max="30" value="5">
+      </div>
+      <div class="calc-row">
+        <label>Quantas vezes por dia: <span class="val" id="freqVal">40</span></label>
+        <input type="range" id="frequencia" min="5" max="150" value="40">
+      </div>
+
+      <div class="calc-result">
+        <div class="num" id="horasMes">14,7h</div>
+        <div class="label">horas recuperadas por mês, considerando 90% de automação da tarefa (22 dias úteis)</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="pilares">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Como eu trabalho</p>
+      <h2>Três pilares, sem complicação</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="n">01</div>
+        <h3>Diagnóstico antes de ferramenta</h3>
+        <p>Mapeio, em uma conversa de 20 minutos, onde exatamente a operação perde mais tempo hoje — antes de decidir qualquer solução.</p>
+      </div>
+      <div class="pillar">
+        <div class="n">02</div>
+        <h3>Automação sob medida</h3>
+        <p>Aplico a automação certa pro seu contexto — Google Workspace, Microsoft 365 ou uma IA específica — sempre priorizando o que sua empresa já usa.</p>
+      </div>
+      <div class="pillar">
+        <div class="n">03</div>
+        <h3>Disseminação de IA no time</h3>
+        <p>Capacito sua equipe pra usar e manter a solução sozinha — o objetivo é a operação ficar independente, não dependente de mim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="sobre">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Quem está por trás</p>
+      <h2>Não é teoria de curso — é operação que eu vivi</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-bio">
+        <div class="about-avatar">CM</div>
+        <h3>Cida Moreira</h3>
+        <p class="role">Fundadora da AscenDeres</p>
+        <p>14 anos de experiência operacional em energia, saúde e educação — passando por Enel/Tivit, Sami Saúde, Weduka e Spun Mídia antes de fundar a AscenDeres.</p>
+        <p>Hoje atuo também junto a startups em projetos de eficiência e excelência operacional, além de atuar como palestrante e consultora em tecnologia, inovação, automação de processos, mapeamento e excelência operacional.</p>
+      </div>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="num">30min → 15s</div>
+          <div class="desc">Tempo de um processo de auditoria médica, depois de automatizado</div>
+        </div>
+        <div class="result-card">
+          <div class="num">Ruim → Bom</div>
+          <div class="desc">Reputação no Reclame Aqui revertida em 3 meses</div>
+        </div>
+        <div class="result-card">
+          <div class="num">60%</div>
+          <div class="desc">Otimização de equipe alcançada na operação da Weduka</div>
+        </div>
+        <div class="result-card">
+          <div class="num">50%</div>
+          <div class="desc">Redução no tempo de onboarding em projeto na Tivit/Enel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="eco" id="exemplos">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Exemplos reais</p>
+      <h2>Automação com o que sua empresa já usa</h2>
+    </div>
+    <div class="eco-grid">
+      <div class="eco-card">
+        <span class="tool-tag">GOOGLE WORKSPACE</span>
+        <h4>Tratativa automática de e-mail e formulários</h4>
+        <p>Classificação de mensagens, formulário que já organiza pedidos numa planilha, relatório que se gera e envia sozinho — usando Gmail, Sheets e Forms.</p>
+      </div>
+      <div class="eco-card">
+        <span class="tool-tag">MICROSOFT 365</span>
+        <h4>Fluxos automáticos no Outlook e Excel</h4>
+        <p>Regras de e-mail, planilhas dinâmicas e automações simples com Power Automate para quem já opera no ecossistema Microsoft.</p>
+      </div>
+      <div class="eco-card">
+        <span class="tool-tag">IA APLICADA</span>
+        <h4>Assistentes para tarefas específicas</h4>
+        <p>Uso direcionado de ferramentas de IA (gratuitas ou com assinatura de baixo custo) para triagem, atendimento ou geração de conteúdo — só quando o diagnóstico indicar que vale o investimento.</p>
+      </div>
+    </div>
+    <div class="eco-note">
+      <strong>Como decido a ferramenta:</strong> o diagnóstico vem primeiro, sempre. Priorizo o que sua empresa já usa e paga hoje. Uma ferramenta paga só entra na conversa se o resultado do piloto justificar — nunca como ponto de partida.
+    </div>
+  </div>
+</section>
+
+<section id="processo">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Metodologia</p>
+      <h2>Como funciona, do primeiro contato ao resultado</h2>
+    </div>
+    <div class="steps">
+      <div class="step" data-n="1">
+        <h4>Diagnóstico gratuito (20 min)</h4>
+        <p>Conversa rápida para entender onde está o maior gargalo — e um formulário simples que você preenche antes, pra otimizarmos o tempo da conversa.</p>
+      </div>
+      <div class="step" data-n="2">
+        <h4>Mapeamento do processo</h4>
+        <p>Desenho junto com você o fluxo atual: etapas, pessoas envolvidas e onde exatamente o tempo se perde.</p>
+      </div>
+      <div class="step" data-n="3">
+        <h4>Piloto de automação (1 a 2 semanas)</h4>
+        <p>Aplico a solução em um processo específico, usando ferramenta gratuita do ecossistema Google, com resultado visível antes de qualquer decisão maior.</p>
+      </div>
+      <div class="step" data-n="4">
+        <h4>Capacitação e continuidade</h4>
+        <p>Treino sua equipe para manter a automação e, se fizer sentido, seguimos com acompanhamento mensal para expandir a outros processos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mapeamento">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Comece agora</p>
+      <h2>Mapeamento rápido da sua operação</h2>
+    </div>
+    <div class="map-card">
+      <div class="map-row">
+        <label for="mapEmpresa">Nome da empresa</label>
+        <input type="text" id="mapEmpresa" placeholder="Ex: Distribuidora Santos Ltda">
+      </div>
+      <div class="map-row">
+        <label for="mapAtividade">Qual atividade manual mais toma tempo da sua equipe hoje?</label>
+        <textarea id="mapAtividade" rows="3" placeholder="Ex: Toda triagem de pedido por e-mail é feita manualmente por uma pessoa"></textarea>
+      </div>
+      <div class="map-row">
+        <label for="mapFrequencia">Com que frequência isso acontece?</label>
+        <input type="text" id="mapFrequencia" placeholder="Ex: Todos os dias, várias vezes por dia">
+      </div>
+      <button class="btn-primary map-btn" id="mapEnviar">Enviar mapeamento pelo WhatsApp</button>
+      <p class="map-hint">Isso abre o WhatsApp com sua resposta já preenchida — sem necessidade de repetir tudo numa call.</p>
+    </div>
+  </div>
+</section>
+
+<section id="diagnostico">
+  <div class="wrap">
+    <div class="cta-final">
+      <div>
+        <h2>Vamos destravar sua operação?</h2>
+        <p>20 minutos, sem compromisso. Você sai da conversa sabendo onde está o gargalo e qual caminho faz sentido — antes de decidir qualquer ferramenta ou investimento.</p>
+      </div>
+      <a class="btn-primary" href="https://wa.me/5513996319150" target="_blank">Agendar pelo WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Cida Moreira</strong> · Fundadora AscenDeres</div>
+    <div>linktr.ee/ascenderes · @ascenderes · Baixada Santista, SP</div>
+  </div>
+</footer>
+
+<script>
+  const minutos = document.getElementById('minutos');
+  const frequencia = document.getElementById('frequencia');
+  const minVal = document.getElementById('minVal');
+  const freqVal = document.getElementById('freqVal');
+  const horasMes = document.getElementById('horasMes');
+
+  function formatBR(num){
+    return num.toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1});
+  }
+
+  function calcular(){
+    const min = parseInt(minutos.value, 10);
+    const freq = parseInt(frequencia.value, 10);
+    minVal.textContent = min;
+    freqVal.textContent = freq;
+
+    const minutosDiarios = min * freq;
+    const horasDiarias = minutosDiarios / 60;
+    const horasRecuperadasDia = horasDiarias * 0.9; // 90% automatizável
+    const horasRecuperadasMes = horasRecuperadasDia * 22; // dias úteis
+
+    horasMes.textContent = formatBR(horasRecuperadasMes) + 'h';
+  }
+
+  minutos.addEventListener('input', calcular);
+  frequencia.addEventListener('input', calcular);
+  calcular();
+
+  // Mini-mapeamento -> WhatsApp
+  const mapBtn = document.getElementById('mapEnviar');
+  mapBtn.addEventListener('click', () => {
+    const empresa = document.getElementById('mapEmpresa').value.trim() || '(não informado)';
+    const atividade = document.getElementById('mapAtividade').value.trim() || '(não informado)';
+    const freq = document.getElementById('mapFrequencia').value.trim() || '(não informado)';
+
+    const url = `https://wa.me/5513996319150?text=${encodeURIComponent(
+      `Olá, Cida! Quero fazer o mapeamento rápido da minha operação.\n\n` +
+      `Empresa: ${empresa}\n` +
+      `Atividade manual que mais toma tempo: ${atividade}\n` +
+      `Frequência: ${freq}`
+    )}`;
+
+    window.open(url, '_blank');
+  });
+</script>
+
+</body>
+</html>
